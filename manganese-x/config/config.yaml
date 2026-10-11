@@ -1,0 +1,39 @@
+# MANGANESE-X central configuration (no secrets here)
+project:
+  name: MANGANESE-X
+  seed: 42
+
+study_area:
+  name: Balaghat
+  state: Madhya Pradesh
+  # Put the district boundary here (see docs/DATA_SOURCES.md, item D1)
+  boundary_file: data/raw/boundary/balaghat_district.geojson
+  # GENEROUS sanity box used ONLY to reject obviously wrong coordinates.
+  # It is NOT the district boundary. [Verify against the real boundary in Phase 2]
+  sanity_bounds: {lat_min: 21.0, lat_max: 22.7, lon_min: 79.4, lon_max: 81.3}
+
+crs:
+  geographic: "EPSG:4326"
+  # Balaghat (~80E) lies in UTM zone 44N, NOT 43N.  Zone = floor((lon+180)/6)+1
+  projected: "EPSG:32644"
+
+grid:
+  cell_size_m: 250
+  sensitivity_cell_size_m: 500   # re-run later as a sensitivity check
+  version: "grid_v1_250m"
+
+sentinel2:
+  collection: "COPERNICUS/S2_SR_HARMONIZED"
+  date_start: "2023-10-01"
+  date_end: "2025-05-31"
+  max_scene_cloud_pct: 40
+  bands: [B2, B3, B4, B5, B6, B7, B8, B8A, B11, B12]
+  export_scale_m: 20
+
+weather:
+  collection: "ECMWF/ERA5_LAND/DAILY_AGGR"
+  date_start: "2015-01-01"
+  date_end: "2025-12-31"
+
+paths:
+  registry: data/metadata/dataset_registry.yaml

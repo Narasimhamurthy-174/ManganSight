@@ -1,0 +1,165 @@
+# Dataset provenance registry.
+# status: verified_exists = a web page for it was found while writing this file
+#         to_verify       = believed to exist, NOT yet confirmed -> you must check
+#         acquired        = you downloaded it (fill download_date)
+# 'unknown' is a legal value. Inventing a value is not.
+datasets:
+  - dataset_id: D_OCC_MRDS
+    dataset_name: USGS Mineral Resources Data System (MRDS), worldwide records
+    source: USGS Mineral Resources Online Spatial Data
+    publisher: U.S. Geological Survey
+    url: https://mrdata.usgs.gov/mrds/
+    download_date: unknown
+    time_period: "Compiled up to ~2011 (USGS stopped systematic updates in 2011)"
+    spatial_resolution: point records
+    temporal_resolution: static
+    crs: EPSG:4326 (verify in file)
+    license: unknown (check USGS data policy)
+    processing_steps: "Filter commodity contains manganese; clip to Balaghat; validate coords"
+    limitations: "Old, possibly incomplete/imprecise for India; positions may be approximate; not GSI-authoritative"
+    data_class: REAL
+    status: verified_exists
+
+  - dataset_id: D_GEO_BHUKOSH
+    dataset_name: GSI geology / mineral layers (Bhukosh)
+    source: Bhukosh - GSI enterprise geoscience portal
+    publisher: Geological Survey of India
+    url: http://bhukosh.gsi.gov.in/Bhukosh/MapViewer.aspx
+    download_date: unknown
+    time_period: unknown
+    spatial_resolution: unknown (check map scale of the Balaghat layers)
+    temporal_resolution: static
+    crs: unknown
+    license: unknown (registration/terms likely apply)
+    processing_steps: "Download district-level geology + structure + mineral occurrence layers if offered"
+    limitations: "Portal exists; exact downloadable layers for Balaghat NOT yet confirmed"
+    data_class: REAL
+    status: verified_exists
+
+  - dataset_id: D_GEO_NGDR
+    dataset_name: National Geoscience Data Repository (NGDR)
+    source: NGDR / Geodata India
+    publisher: Geological Survey of India (nodal agency)
+    url: https://geodataindia.gov.in
+    download_date: unknown
+    time_period: unknown
+    spatial_resolution: unknown
+    temporal_resolution: static
+    crs: unknown
+    license: unknown
+    processing_steps: "Search for manganese exploration reports / GIS layers for Balaghat"
+    limitations: "Login/registration required; availability for Balaghat unconfirmed"
+    data_class: REAL
+    status: verified_exists
+
+  - dataset_id: D_PROD_MOIL_AR
+    dataset_name: MOIL Limited Annual Reports (production, mine list)
+    source: MOIL website
+    publisher: MOIL Limited
+    url: https://moil.nic.in/userfiles/Annual_Report_2024_25.pdf
+    download_date: unknown
+    time_period: "FY 2024-25 (other years: same site, e.g. FY 2023-24 report)"
+    spatial_resolution: company / possibly mine-wise (check tables)
+    temporal_resolution: annual
+    crs: n/a
+    license: public disclosure (check terms)
+    processing_steps: "Manually transcribe production tables with page numbers into CSV"
+    limitations: "Annual granularity; monthly production likely NOT public"
+    data_class: REAL
+    status: verified_exists
+
+  - dataset_id: D_PROD_IBM_YB
+    dataset_name: Indian Minerals Yearbook 2022 - Manganese Ore
+    source: Indian Bureau of Mines
+    publisher: Indian Bureau of Mines
+    url: https://ibm.gov.in/writereaddata/files/17125770456613da1576db0Manganese_Ore_2022.pdf
+    download_date: unknown
+    time_period: "up to 2021-22"
+    spatial_resolution: state / district / mine lists
+    temporal_resolution: annual
+    crs: n/a
+    license: unknown
+    processing_steps: "Read tables; use for context and annual anchors"
+    limitations: "Annual; lagged"
+    data_class: REAL
+    status: verified_exists
+
+  - dataset_id: D_WX_ERA5LAND
+    dataset_name: ERA5-Land daily aggregated (precipitation, soil water)
+    source: Google Earth Engine catalog ECMWF/ERA5_LAND/DAILY_AGGR
+    publisher: ECMWF / Copernicus Climate Change Service
+    url: https://developers.google.com/earth-engine/datasets/catalog/ECMWF_ERA5_LAND_DAILY_AGGR
+    download_date: unknown
+    time_period: 1950-present (we use 2015-2025)
+    spatial_resolution: ~9 km (11132 m in GEE)
+    temporal_resolution: daily
+    crs: EPSG:4326
+    license: Copernicus licence; cite doi:10.24381/cds.68d2bb30
+    processing_steps: "District-mean daily precipitation and soil water layer 1 via scripts/gee/export_era5land.py"
+    limitations: "Reanalysis, not gauge data; 9 km cannot resolve a single mine site"
+    data_class: REAL
+    status: verified_exists
+
+  - dataset_id: D_S2_SR
+    dataset_name: Sentinel-2 Level-2A surface reflectance (harmonized)
+    source: Google Earth Engine COPERNICUS/S2_SR_HARMONIZED
+    publisher: ESA / Copernicus
+    url: unknown (confirm on GEE catalog)
+    download_date: unknown
+    time_period: "2023-10 to 2025-05 (configurable)"
+    spatial_resolution: 10-20 m
+    temporal_resolution: ~5 days
+    crs: EPSG:4326 export
+    license: Copernicus (free, open)
+    processing_steps: "SCL cloud mask -> median composite + valid-observation count"
+    limitations: "Surface signal only; vegetation/soil cover reduces mineral signal"
+    data_class: REAL
+    status: to_verify
+
+  - dataset_id: D_DEM_SRTM
+    dataset_name: SRTM 1 arc-second DEM
+    source: Google Earth Engine USGS/SRTMGL1_003
+    publisher: NASA / USGS
+    url: unknown (confirm on GEE catalog)
+    download_date: unknown
+    time_period: 2000 acquisition
+    spatial_resolution: 30 m
+    temporal_resolution: static
+    crs: EPSG:4326
+    license: public domain (verify)
+    processing_steps: "Export elevation; derive slope/aspect/ruggedness in Python"
+    limitations: "Vertical error, canopy effects"
+    data_class: REAL
+    status: to_verify
+
+  - dataset_id: D_BOUNDARY
+    dataset_name: Balaghat district boundary
+    source: candidate FAO GAUL 2015 level-2 in GEE, or Survey of India / Census / geoBoundaries
+    publisher: unknown until chosen
+    url: unknown
+    download_date: unknown
+    time_period: unknown
+    spatial_resolution: vector
+    temporal_resolution: static
+    crs: EPSG:4326
+    license: unknown
+    processing_steps: "Filter Balaghat; save as data/raw/boundary/balaghat_district.geojson"
+    limitations: "Global boundary sets are simplified; check against district area"
+    data_class: REAL
+    status: to_verify
+
+  - dataset_id: D_PROD_SIM
+    dataset_name: Simulated operational/production series
+    source: MANGANESE-X simulator (to be written in Phase 11)
+    publisher: this project
+    url: n/a
+    download_date: n/a
+    time_period: configurable
+    spatial_resolution: mine-level (simulated)
+    temporal_resolution: daily/weekly
+    crs: n/a
+    license: n/a
+    processing_steps: "Generated from documented assumptions anchored to real annual totals"
+    limitations: "NOT real MOIL data. Findings from it describe the simulator, not MOIL."
+    data_class: SIMULATED
+    status: to_verify
