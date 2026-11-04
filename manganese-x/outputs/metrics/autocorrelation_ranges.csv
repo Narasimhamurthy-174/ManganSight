@@ -1,0 +1,12 @@
+feature,role,range_km,gamma_at_1km,gamma_at_5km,gamma_at_20km
+elev_m,predictor,60.0,0.029,0.172,0.528
+slope_deg,predictor,24.0,0.476,0.759,1.04
+tri_m,dropped,24.0,0.483,0.76,1.04
+relief_1km_m,dropped,24.0,0.234,0.682,1.08
+ndvi,predictor,48.0,0.494,0.765,0.895
+dense_veg_frac,quality,48.0,0.512,0.76,0.817
+clay_ratio,dropped,32.0,0.402,0.733,0.918
+iron_ratio,predictor,32.0,0.482,0.763,0.875
+vis_brightness,dropped,24.0,0.461,0.74,0.961
+swir1,dropped,32.0,0.48,0.79,0.935
+s2_nobs,quality,,0.057,0.344,0.563
