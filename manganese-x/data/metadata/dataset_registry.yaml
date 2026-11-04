@@ -16,7 +16,8 @@ datasets:
     crs: EPSG:4326 (verify in file)
     license: unknown (check USGS data policy)
     processing_steps: "Filter commodity contains manganese; clip to Balaghat; validate coords"
-    limitations: "Old, possibly incomplete/imprecise for India; positions may be approximate; not GSI-authoritative"
+    #limitations: "Old, possibly incomplete/imprecise for India; positions may be approximate; not GSI-authoritative"
+    limitations: "FAO GAUL 2015 level-2 (deprecated in Earth Engine, superseded by GAUL 2025); simplified global boundary, not an official Survey of India boundary; check against district area"
     data_class: REAL
     status: verified_exists
 

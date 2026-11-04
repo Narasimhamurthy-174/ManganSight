@@ -1,0 +1,25 @@
+# Feature decisions made in Phase 6 (EDA).
+# IMPORTANT: made from feature-vs-feature correlations only (label-free).
+# The known occurrence records were NOT used to choose features, so the later
+# cross-validation scores are not inflated by feature selection.
+rule: >
+  Within each group of features with |Spearman rho| >= 0.8 (computed over all 149,510 cells),
+  keep ONE representative chosen for interpretability; drop the others.
+predictors:
+  - elev_m
+  - slope_deg
+  - ndvi
+  - iron_ratio
+quality_indicators:          # feed the uncertainty / evidence-completeness system, NOT model inputs
+  - dense_veg_frac
+  - s2_nobs
+dropped:
+  tri_m: "rho 0.995 with slope_deg (near-duplicate)"
+  relief_1km_m: "rho 0.858 with slope_deg (same terrain-roughness group)"
+  clay_ratio: "rho 0.958 with ndvi (mostly a vegetation signal in this district)"
+  vis_brightness: "rho -0.887 with ndvi"
+  swir1: "rho -0.847 with ndvi"
+geology_features_pending:    # names provisional; depends on which geology layer we can obtain
+  - lithology_unit
+  - distance_to_host_formation
+  - distance_to_structure

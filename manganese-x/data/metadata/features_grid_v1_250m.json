@@ -1,0 +1,26 @@
+{
+  "created_utc": "2026-10-18T16:16:40+00:00",
+  "grid_version": "grid_v1_250m",
+  "cell_size_m": 250.0,
+  "n_cells": 149510,
+  "s2_file": "data/raw/sentinel2/s2_dry_balaghat.tif",
+  "dem_file": "data/raw/dem/srtm_balaghat.tif",
+  "features": [
+    "elev_m",
+    "slope_deg",
+    "tri_m",
+    "relief_1km_m",
+    "ndvi",
+    "dense_veg_frac",
+    "clay_ratio",
+    "iron_ratio",
+    "vis_brightness",
+    "swir1",
+    "s2_nobs"
+  ],
+  "dense_veg_ndvi_threshold": 0.6,
+  "relief_window_m": 1000,
+  "aggregation": "GDAL average resampling of native-resolution values into grid cells",
+  "dem_zero_pixels_treated_as_nodata": true,
+  "data_class": "DERIVED"
+}
