@@ -1,0 +1,16 @@
+# Settings for the baseline spatial cross-validation (scripts/09_baseline_cv.py).
+# Every value here is an ASSUMPTION to be tested in sensitivity analysis, not a fact.
+seed: 42
+folds: 5
+repeats: 5                       # repeats use different random block offsets / draws
+block_km: [0.25, 10, 20, 30, 40] # 0.25 km = one cell per block = effectively random CV
+strategies: [uniform, near_belt] # background-sampling strategies (first one is used for importance)
+background_ratio: 20             # background cells drawn per training positive
+exclusion_buffer_km: 1.0         # no background within 1 km of a training positive (label position error)
+near_belt_ring_km: 15.0          # near_belt background: between buffer and 15 km from a training positive
+belt_eval_ring_km: 15.0          # 'belt' evaluation domain: test cells within 15 km of ANY known record
+min_test_positives: 3            # folds with fewer test positives are skipped
+models: [knn_dist, logreg, rf, xgb]
+rf: {trees: 300, max_depth: 6, min_samples_leaf: 5}
+xgb: {n_estimators: 200, max_depth: 3, learning_rate: 0.05, subsample: 0.8, colsample_bytree: 0.8, min_child_weight: 3}
+importance_block_km: 20          # permutation importance is computed on held-out 20 km blocks

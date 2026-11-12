@@ -1,0 +1,7 @@
+model,feature,mean_auc_drop,sd,n_units
+logreg,ndvi_r5km,0.0302,0.1281,25
+logreg,slope_deg_r5km,-0.0083,0.0748,25
+logreg,elev_m_r5km,-0.0556,0.0655,25
+rf,slope_deg_r5km,0.0438,0.0725,25
+rf,ndvi_r5km,0.0266,0.1102,25
+rf,elev_m_r5km,0.0163,0.0752,25

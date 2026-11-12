@@ -1,0 +1,118 @@
+{
+  "model_name": "ManganSight exploration ensemble",
+  "version": "v1",
+  "data_class": "MODEL_OUTPUT",
+  "training_date": "2026-11-11T12:49:43+00:00",
+  "features": {
+    "scale_2p5km": [
+      "elev_m_r2p5km",
+      "slope_deg_r2p5km",
+      "ndvi_r2p5km",
+      "iron_ratio_r2p5km"
+    ],
+    "scale_5km": [
+      "elev_m_r5km",
+      "slope_deg_r5km",
+      "ndvi_r5km",
+      "iron_ratio_r5km"
+    ]
+  },
+  "models": [
+    "logreg",
+    "rf",
+    "xgb"
+  ],
+  "background_draws": 3,
+  "n_known_records_used": 59,
+  "validation_method": "spatial block cross-validation (10-40 km) + random CV for comparison; see docs/experiment_log.md",
+  "metrics": "see docs/experiment_log.md and outputs/metrics/uncertainty_validation_*.csv (run scripts/13)",
+  "config": {
+    "seed": 42,
+    "members": {
+      "models": [
+        "logreg",
+        "rf",
+        "xgb"
+      ],
+      "feature_sets": [
+        "scale_2p5km",
+        "scale_5km"
+      ],
+      "background_draws": 3,
+      "background_ratio": 20,
+      "exclusion_buffer_km": 1.0,
+      "rf": {
+        "trees": 300,
+        "max_depth": 6,
+        "min_samples_leaf": 5
+      },
+      "xgb": {
+        "n_estimators": 200,
+        "max_depth": 3,
+        "learning_rate": 0.05,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8,
+        "min_child_weight": 3
+      }
+    },
+    "primary_model": {
+      "name": "logreg",
+      "feature_set": "scale_5km"
+    },
+    "applicability": {
+      "feature_set": "scale_5km",
+      "threshold_block_km": 10,
+      "whisker": 1.5
+    },
+    "quality": {
+      "dense_veg_window_km": 5,
+      "min_quality": 0.7
+    },
+    "tiers": {
+      "agreement_rule": "spread <= median spread of the predicted cells",
+      "highest_tier_without_independent_evidence": "Medium"
+    },
+    "priority": {
+      "weights": {
+        "prospectivity": 0.28,
+        "proximity": 0.42,
+        "confidence": 0.15,
+        "quality": 0.15
+      },
+      "confidence_value": {
+        "Medium": 1.0,
+        "Low": 0.5,
+        "Not assessed": 0.0
+      },
+      "top_fraction_high": 0.05,
+      "top_fraction_medium": 0.2,
+      "sensitivity_draws": 200,
+      "dirichlet_concentration": 20
+    },
+    "zones": {
+      "min_cells": 8
+    },
+    "stepout": {
+      "min_distance_km": 5.0,
+      "top_fraction": 0.05,
+      "min_cells": 8
+    },
+    "validation": {
+      "block_km": [
+        20,
+        30
+      ],
+      "repeats": 3,
+      "folds": 5,
+      "belt_ring_km": 15,
+      "min_test_positives": 3,
+      "min_tier_positives": 3
+    }
+  },
+  "limitations": [
+    "no geology layer",
+    "59 imperfectly located records",
+    "modest regional skill; location-only baseline is stronger",
+    "'High' confidence is not assigned without independent evidence"
+  ]
+}

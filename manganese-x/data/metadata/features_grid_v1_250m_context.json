@@ -1,0 +1,27 @@
+{
+  "created_utc": "2026-11-08T00:38:14+00:00",
+  "grid_version": "grid_v1_250m",
+  "scales_km": {
+    "r1km": 1.0,
+    "r2p5km": 2.5,
+    "r5km": 5.0
+  },
+  "tpi_km": 5.0,
+  "columns": [
+    "elev_m_r1km",
+    "elev_m_r2p5km",
+    "elev_m_r5km",
+    "slope_deg_r1km",
+    "slope_deg_r2p5km",
+    "slope_deg_r5km",
+    "ndvi_r1km",
+    "ndvi_r2p5km",
+    "ndvi_r5km",
+    "iron_ratio_r1km",
+    "iron_ratio_r2p5km",
+    "iron_ratio_r5km",
+    "tpi_5km"
+  ],
+  "data_class": "DERIVED",
+  "method": "square-window mean ignoring NaN; tpi = elevation minus window mean"
+}

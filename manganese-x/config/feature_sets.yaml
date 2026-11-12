@@ -1,0 +1,13 @@
+# Feature sets compared in the ablation experiments (docs/experiment_log.md).
+# Defined BEFORE looking at their results. 'base' = config/features.yaml predictors.
+sets:
+  base:          [elev_m, slope_deg, ndvi, iron_ratio]
+  scale_1km:     [elev_m_r1km, slope_deg_r1km, ndvi_r1km, iron_ratio_r1km]            # mean within ~1 km
+  scale_2p5km:   [elev_m_r2p5km, slope_deg_r2p5km, ndvi_r2p5km, iron_ratio_r2p5km]    # mean within ~2.5 km
+  scale_5km:     [elev_m_r5km, slope_deg_r5km, ndvi_r5km, iron_ratio_r5km]            # mean within ~5 km (Experiment 5)
+  base_plus_tpi: [elev_m, slope_deg, ndvi, iron_ratio, tpi_5km]                       # + landform position
+  # Experiment 7: is one feature (iron_ratio) doing all the work?
+  iron_only_5km: [iron_ratio_r5km]
+  no_iron_5km:   [elev_m_r5km, slope_deg_r5km, ndvi_r5km]
+  iron_only_2p5km: [iron_ratio_r2p5km]
+  no_iron_2p5km:   [elev_m_r2p5km, slope_deg_r2p5km, ndvi_r2p5km]
