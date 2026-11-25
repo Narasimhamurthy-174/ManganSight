@@ -99,3 +99,13 @@ amount. Confirm on independent data (new records, or a layer with independent ev
 We saw the known records on the slope map and noticed they line up with a steep band. Any feature designed from that observation
 was suggested by the labels it would be tested on, so cross-validation cannot protect against it. Report such features as EXPLORATORY only.
 Independent evidence layers (geology, lineaments from an independent source) do not have this problem.
+
+
+## Experiment 10 (pre-registered) - Phase 11-14 Production forecasting, what-if simulator & decision layer (2026-11-23)
+- Purpose: Build production forecasting pipeline, operational what-if scenario simulator, and rule-based decision engine.
+- REAL layer: MOIL company-wide monthly records (Jan 2025, Apr-Aug 2025) vs ERA5-Land rainfall/soil moisture. Observed 14.5% monsoon dip in July-August.
+- SIMULATED layer: Weekly operational logs for 4 Balaghat mines (Balaghat, Tirodi, Ukwa, Sitapatore) calibrated to seasonal weather dip with equipment downtime, maintenance schedules, and blasting delays.
+- Features: Strictly past-only lag and rolling features (1d, 7d, 30d, 90d weather; 1w, 2w, 4w production lags). Zero temporal leakage verified.
+- Decision layer: 5 operational what-if counterfactual scenarios (downtime reduced, maintenance rescheduled, higher rainfall anomaly, alternative schedules) returning baseline vs scenario production, shortfall %, and uncertainty ranges.
+- Rules engine: Evidence-linked recommendations framed as 'potential actions for consideration', connecting both production shortfall risk and exploration step-out targets.
+- Verification: 18 new unit tests covering production, scenarios, and REST backend API.

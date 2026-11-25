@@ -14,3 +14,4 @@ data/processed/*
 models/*.pkl
 models/*.joblib
 .DS_Store
+*.zip

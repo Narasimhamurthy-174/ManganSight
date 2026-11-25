@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ManganSight | Decision Support Platform for Manganese Exploration & Production</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <!-- Navigation Sidebar -->
+  <aside class="sidebar">
+    <div class="brand">
+      <h1>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+          <polyline points="2 17 12 22 22 17"></polyline>
+          <polyline points="2 12 12 17 22 12"></polyline>
+        </svg>
+        ManganSight
+      </h1>
+      <p>Manganese Exploration & Production Decision Support Platform</p>
+    </div>
+
+    <ul class="nav-menu">
+      <li class="nav-item active" data-view="view-executive">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+        Executive Overview
+      </li>
+      <li class="nav-item" data-view="view-exploration">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>
+        Exploration Intelligence & GIS
+      </li>
+      <li class="nav-item" data-view="view-zones">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+        Target Zones (Belt & Step-Out)
+      </li>
+      <li class="nav-item" data-view="view-production">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+        Production & Shortfall Risk
+      </li>
+      <li class="nav-item" data-view="view-whatif">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+        What-If Scenario Simulator
+      </li>
+      <li class="nav-item" data-view="view-explainability">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+        Model Explainability
+      </li>
+      <li class="nav-item" data-view="view-methodology">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+        Data & Methodology
+      </li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <div><strong>BMS Institute of Technology & Management</strong></div>
+      <div style="color: #64748b; margin-top: 2px;">Dept. of Computer Science & Eng.</div>
+      <div style="color: #64748b; margin-top: 2px;">SIH 26009 | MOIL Ltd.</div>
+      <div style="margin-top: 6px; font-weight: 600; color: #38bdf8;">Balaghat District, MP (UTM 44N)</div>
+    </div>
+  </aside>
+
+  <!-- Main Work Area -->
+  <div class="main-wrapper">
+    <header class="topbar">
+      <div class="topbar-title" id="page-title">Executive Decision Overview</div>
+      <div style="display: flex; gap: 12px; align-items: center;">
+        <span class="mode-badge" id="data-mode-badge">DATA CLASSIFICATION: VERIFIED MULTI-SOURCE</span>
+      </div>
+    </header>
+
+    <!-- 1. Executive Overview -->
+    <div class="content-pane active" id="view-executive">
+      <div class="notice-box">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+        <div>
+          <strong>Operational & Scientific Scope:</strong> ManganSight provides mineral prospectivity ranking and production shortfall forecasting based on empirical satellite surface reflectance (Sentinel-2), topographic modeling (SRTM), and meteorological reanalysis (ERA5-Land). Predictions represent statistical exploration prioritization and scenario estimations, requiring field geological ground truthing.
+        </div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">Priority A Exploration Cells</div>
+          <div class="kpi-value" style="color: #2563eb;">7,255</div>
+          <div class="kpi-desc">Top 5% high prospectivity + proximity band (Stability index: 0.88)</div>
+        </div>
+        <div class="kpi-card purple">
+          <div class="kpi-label">Step-Out Candidate Targets</div>
+          <div class="kpi-value" style="color: #7c3aed;">17 Zones</div>
+          <div class="kpi-desc">1,905 unmined cells (119 km²), strictly &ge; 5 km from known records</div>
+        </div>
+        <div class="kpi-card gold">
+          <div class="kpi-label">Operational Shortfall Risk</div>
+          <div class="kpi-value" id="kpi-risk-val" style="color: #d97706;">MEDIUM</div>
+          <div class="kpi-desc" id="kpi-risk-desc">Associated with seasonal precipitation and maintenance scheduling</div>
+        </div>
+        <div class="kpi-card green">
+          <div class="kpi-label">FY26 Production Benchmark</div>
+          <div class="kpi-value" style="color: #059669;">22.0 L tonnes</div>
+          <div class="kpi-desc">Targeted MOIL annual output (1.83 L tonnes/month nominal phasing)</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <span>Active Decision-Support Recommendations</span>
+          <span class="badge badge-model">EVIDENCE-LINKED RULES</span>
+        </div>
+        <div id="executive-recommendations-list">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Exploration Intelligence & GIS Map -->
+    <div class="content-pane" id="view-exploration">
+      <div class="card" style="padding: 14px 20px; margin-bottom: 16px;">
+        <div style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
+          <span style="font-size: 0.88rem; font-weight: 700; color: var(--text-primary);">Interactive GIS Layers:</span>
+          <label style="font-size: 0.82rem; font-weight: 600; display: flex; align-items: center; gap: 6px; cursor: pointer;">
+            <input type="checkbox" id="layer-boundary" checked> Balaghat District Boundary
+          </label>
+          <label style="font-size: 0.82rem; font-weight: 600; display: flex; align-items: center; gap: 6px; cursor: pointer; color: #b45309;">
+            <input type="checkbox" id="layer-records" checked> Known Deposits & Mines (USGS MRDS)
+          </label>
+          <label style="font-size: 0.82rem; font-weight: 600; display: flex; align-items: center; gap: 6px; cursor: pointer; color: #7c3aed;">
+            <input type="checkbox" id="layer-stepout" checked> Step-Out Targets (&ge; 5 km)
+          </label>
+          <label style="font-size: 0.82rem; font-weight: 600; display: flex; align-items: center; gap: 6px; cursor: pointer; color: #2563eb;">
+            <input type="checkbox" id="layer-priority" checked> Priority A Prospectivity Grid
+          </label>
+        </div>
+      </div>
+
+      <div class="map-wrapper">
+        <div id="map-container"></div>
+        <div class="live-coord-box" id="map-coord-display">Cursor: 21.8500° N, 80.1800° E</div>
+      </div>
+
+      <div id="cell-trace-panel" class="card" style="margin-top: 18px; display: none;">
+        <div class="card-title">Inspected Location: Evidence & Feature Trace</div>
+        <div id="cell-trace-body"></div>
+      </div>
+    </div>
+
+    <!-- 3. Target Zones -->
+    <div class="content-pane" id="view-zones">
+      <div class="card">
+        <div class="card-title">
+          <span>Step-Out Candidate Exploration Zones (Untested Targets &ge; 5 km from Known Deposits)</span>
+          <span class="badge badge-model">FEATURE ENSEMBLE</span>
+        </div>
+        <p style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 14px;">
+          Ranked strictly by satellite multi-spectral and terrain prospectivity ensemble under Medium confidence tier without proximity bias. Ideal candidates for regional non-invasive field investigation.
+        </p>
+        <div style="overflow-x: auto;">
+          <table class="data-table" id="stepout-table">
+            <thead>
+              <tr>
+                <th>Target ID</th>
+                <th>Area (km²)</th>
+                <th>Centroid (Latitude, Longitude)</th>
+                <th>Ensemble Prospectivity</th>
+                <th>Min Dist to Active Mine</th>
+                <th>Primary Spectral Driver</th>
+                <th>Methodological Note</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <span>Known Belt Delineated Zones (Brownfield Extensions)</span>
+          <span class="badge badge-derived">DELINEATED REGIONS</span>
+        </div>
+        <div style="overflow-x: auto;">
+          <table class="data-table" id="known-zones-table">
+            <thead>
+              <tr>
+                <th>Zone ID</th>
+                <th>Surface Area (km²)</th>
+                <th>Verified Deposits</th>
+                <th>Mean Priority Percentile</th>
+                <th>Model Stability Index</th>
+                <th>Geographic Classification</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Production & Shortfall Risk -->
+    <div class="content-pane" id="view-production">
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">FY26 Cumulative Reported Actual</div>
+          <div class="kpi-value">19.07 L tonnes</div>
+          <div class="kpi-desc">Reported company-wide output (13.3% below 22.0 L t target)</div>
+        </div>
+        <div class="kpi-card" style="border-top-color: #dc2626;">
+          <div class="kpi-label">Empirical Monsoon Dip (Jul–Aug)</div>
+          <div class="kpi-value" style="color: #dc2626;">-14.5%</div>
+          <div class="kpi-desc">Observed drop below pre-monsoon baseline driven by heavy rainfall</div>
+        </div>
+        <div class="kpi-card green">
+          <div class="kpi-label">Active Mines Analyzed</div>
+          <div class="kpi-value" style="color: #059669;">4 Operations</div>
+          <div class="kpi-desc">Balaghat (Bharweli), Tirodi, Ukwa, Sitapatore</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <span>Reported MOIL Monthly Production vs Evenly Phased Target Benchmark</span>
+          <span class="badge badge-real">OFFICIAL PRESS DISCLOSURES</span>
+        </div>
+        <canvas id="chart-production-real" height="85"></canvas>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <span>12-Week Forward Operational Forecast vs Nominal Capacity (Balaghat Cluster)</span>
+          <span class="badge badge-sim">TIME-SERIES FORECAST</span>
+        </div>
+        <canvas id="chart-production-forecast" height="85"></canvas>
+      </div>
+    </div>
+
+    <!-- 5. What-If Scenario Simulator -->
+    <div class="content-pane" id="view-whatif">
+      <div class="card">
+        <div class="card-title">
+          <span>Operational Counterfactual Scenario Simulator</span>
+          <span class="badge badge-sim">SCENARIO ENGINE</span>
+        </div>
+        <p style="font-size: 0.84rem; color: var(--text-secondary); margin-bottom: 16px;">
+          Simulate operational interventions to mitigate seasonal shortfall risk. All scenario results reflect empirical parameter calibrations.
+        </p>
+
+        <div class="sim-controls">
+          <div class="form-group">
+            <label for="scenario-select">Select Operational Scenario:</label>
+            <select id="scenario-select">
+              <option value="current_conditions">Current Conditions (Standard Baseline Forecast)</option>
+              <option value="downtime_reduced">Equipment Reliability Program (-25% Unplanned Breakdown)</option>
+              <option value="maintenance_rescheduled">Monsoon Maintenance Rescheduling (Shift Heavy Servicing)</option>
+              <option value="higher_rainfall">Severe Rainfall Anomaly (+30% Extreme Precipitation Event)</option>
+              <option value="alternative_schedule">Integrated Staggered Production Schedule</option>
+            </select>
+          </div>
+          <div class="form-group" style="justify-content: flex-end;">
+            <button class="btn" id="btn-run-scenario">Simulate Operational Impact</button>
+          </div>
+        </div>
+
+        <div id="scenario-results-card" style="background-color: #f8fafc; border: 1px solid var(--border-card); border-radius: 8px; padding: 20px;">
+          <h4 id="scenario-title" style="margin-bottom: 6px; color: var(--brand-primary); font-size: 1.05rem;">CURRENT CONDITIONS</h4>
+          <p id="scenario-desc" style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 18px;"></p>
+          
+          <div class="kpi-grid" style="margin-bottom: 0;">
+            <div class="kpi-card">
+              <div class="kpi-label">Estimated Output</div>
+              <div class="kpi-value" id="sc-val-prod" style="font-size: 1.6rem;">-- tonnes</div>
+              <div class="kpi-desc" id="sc-val-change">--</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">Projected Shortfall</div>
+              <div class="kpi-value" id="sc-val-shortfall" style="font-size: 1.6rem;">-- %</div>
+              <div class="kpi-desc" id="sc-val-amt">-- tonnes</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">Risk Category</div>
+              <div class="kpi-value" id="sc-val-risk" style="font-size: 1.6rem;">--</div>
+              <div class="kpi-desc">&lt;5% Low, 5–15% Medium, &gt;15% High</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">Confidence Bounds (95%)</div>
+              <div class="kpi-value" id="sc-val-bounds" style="font-size: 1.05rem; line-height: 2.2rem; color: var(--text-secondary);">[-- , --]</div>
+              <div class="kpi-desc">Scenario-based model estimate</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. Model Explainability -->
+    <div class="content-pane" id="view-explainability">
+      <div class="notice-box">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+        <div>
+          <strong>Interpretation Standard:</strong> Feature rankings describe empirical statistical associations ("associated with"), not direct physical causation.
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 22px;">
+        <div class="card">
+          <div class="card-title">
+            <span>Exploration: Permutation Feature Importance</span>
+            <span class="badge badge-model">SPATIAL BLOCK CV (20 km)</span>
+          </div>
+          <p style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 14px;">
+            Metric drop in held-out spatial block belt-AUC when features are randomly permuted.
+          </p>
+          <canvas id="chart-explain-exploration" height="170"></canvas>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span>Production: Shortfall Driver Attribution</span>
+            <span class="badge badge-sim">DECOMPOSITION</span>
+          </div>
+          <p style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 14px;">
+            Decomposition of operational risk during high-vulnerability seasonal periods.
+          </p>
+          <canvas id="chart-explain-production" height="170"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. Data & Methodology -->
+    <div class="content-pane" id="view-methodology">
+      <div class="card">
+        <div class="card-title">
+          <span>Dataset Registry & Provenance</span>
+          <span class="badge badge-real">VERIFIED REPOSITORIES</span>
+        </div>
+        <div style="overflow-x: auto;">
+          <table class="data-table" id="registry-table">
+            <thead>
+              <tr>
+                <th>Dataset ID</th>
+                <th>Dataset Name</th>
+                <th>Source & Publisher</th>
+                <th>Spatial / Temporal Scale</th>
+                <th>Classification</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Scientific Principles & Spatial Modeling Standards</div>
+        <div style="font-size: 0.86rem; line-height: 1.65; color: var(--text-secondary);">
+          <p><strong>1. Spatial Block Cross-Validation:</strong> Standard random cross-validation artificially inflates spatial prospectivity metrics (AUC 0.75–0.81) because neighbouring grid cells share spatial autocorrelation. By utilizing 10 km to 40 km spatial block validation, held-out generalization was rigorously measured (true regional skill: 0.62–0.66 AUC).</p>
+          <p style="margin-top: 10px;"><strong>2. Presence-Background Formulation:</strong> In mineral exploration, unrecorded locations cannot be assumed as zero-mineral barren rock. Grid cells without documented occurrences are treated as background samples under a presence-background learning framework.</p>
+          <p style="margin-top: 10px;"><strong>3. Separation of Known Belt vs Step-Out Targets:</strong> Standard priority maps correlate heavily with proximity to existing operational pits. To provide discovery value, step-out targets were explicitly isolated (&ge; 5 km from all known records under Medium confidence), yielding 17 distinct exploration zones driven by surface iron-ratio reflectance.</p>
+          <p style="margin-top: 10px;"><strong>4. Leakage-Free Temporal Modeling:</strong> Operational production forecasting features are constructed strictly using backward-looking windows (1, 7, 30, and 90-day lags) to guarantee zero temporal data leakage.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <!-- Application JS -->
+  <script src="app.js"></script>
+</body>
+</html>

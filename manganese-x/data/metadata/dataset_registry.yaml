@@ -164,3 +164,19 @@ datasets:
     limitations: "NOT real MOIL data. Findings from it describe the simulator, not MOIL."
     data_class: SIMULATED
     status: to_verify
+
+  - dataset_id: D_PROD_MOIL_MONTHLY
+    dataset_name: MOIL company-wide monthly manganese ore production (press releases)
+    source: MOIL press releases and stock-exchange filings
+    publisher: MOIL Limited
+    url: https://moil.nic.in
+    download_date: unknown
+    time_period: "months found so far: 2025-01, 2025-04 to 2025-08"
+    spatial_resolution: company-wide (all mines, incl. Maharashtra)
+    temporal_resolution: monthly
+    crs: n/a
+    license: public disclosure (check terms)
+    processing_steps: "Transcribed by hand with source URL; derived months flagged"
+    limitations: "Not Balaghat-only; months without releases missing; record-month bias possible"
+    data_class: REAL
+    status: acquired

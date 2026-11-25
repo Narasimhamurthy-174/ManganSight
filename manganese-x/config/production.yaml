@@ -1,0 +1,59 @@
+# Production and Operational Simulation Configuration
+# All assumptions, parameters, and thresholds are registered here.
+
+data_sources:
+  real_production_csv: "data/raw/production/moil_monthly_production.csv"
+  weather_daily_csv: "data/raw/weather/era5land_balaghat_daily.csv"
+  dataset_registry: "data/metadata/dataset_registry.yaml"
+
+targets:
+  fy2025_26_annual_target_lakh_tonnes: 22.00
+  monthly_phasing: "even"  # 22.0 / 12 = 1.8333 lakh tonnes per month (documented assumption)
+  assumed_monthly_target_lakh_tonnes: 1.8333
+
+risk_thresholds:
+  shortfall_pct:
+    low: 5.0       # < 5% shortfall is LOW risk
+    medium: 15.0   # 5% - 15% is MEDIUM risk
+    high: 15.0     # > 15% is HIGH risk
+
+weather_features:
+  rolling_windows_days: [1, 7, 30, 90]
+  heavy_rain_threshold_mm: 25.0
+  extreme_rain_threshold_mm: 50.0
+  soil_moisture_lag_days: [1, 7, 30]
+
+simulation:
+  data_class: "SIMULATED"
+  mines:
+    - id: "balaghat_mine"
+      name: "Balaghat Mine"
+      type: "underground_and_open_cast"
+      nominal_weekly_capacity_tonnes: 12500
+      base_availability_pct: 0.92
+      weather_sensitivity: 0.35
+    - id: "tirodi_mine"
+      name: "Tirodi Mine"
+      type: "open_cast"
+      nominal_weekly_capacity_tonnes: 6500
+      base_availability_pct: 0.88
+      weather_sensitivity: 0.65  # Higher rain vulnerability for opencast
+    - id: "ukwa_mine"
+      name: "Ukwa Mine"
+      type: "underground"
+      nominal_weekly_capacity_tonnes: 4500
+      base_availability_pct: 0.90
+      weather_sensitivity: 0.25
+    - id: "sitapatore_mine"
+      name: "Sitapatore Mine"
+      type: "open_cast"
+      nominal_weekly_capacity_tonnes: 3500
+      base_availability_pct: 0.86
+      weather_sensitivity: 0.60
+  
+  operational_defaults:
+    downtime_hours_mean_weekly: 14.0
+    downtime_hours_std_weekly: 4.5
+    scheduled_maintenance_hours_weekly: 10.0
+    blasting_delay_rain_threshold_mm: 15.0
+    monsoon_efficiency_dip: 0.145  # Calibrated to MOIL company-wide July-Aug dip of 14.5%
